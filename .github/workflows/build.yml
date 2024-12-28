@@ -13,11 +13,10 @@ jobs:
       - name: Set up dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y software-properties-common wget cmake make g++ libeigen3-dev libceres-dev
+          sudo apt-get install -y wget cmake make g++ libeigen3-dev libceres-dev
 
       - name: Build and install GLog from source
         run: |
-          # Download and build GLog
           wget https://github.com/google/glog/archive/refs/tags/v0.6.0.tar.gz
           tar -xzf v0.6.0.tar.gz
           cd glog-0.6.0
