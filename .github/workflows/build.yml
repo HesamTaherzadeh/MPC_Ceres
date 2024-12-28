@@ -10,13 +10,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up build environment
+      - name: Set up dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y software-properties-common
-          sudo add-apt-repository -y universe
-          sudo apt-get update
-          sudo apt-get install -y libeigen3-dev libceres-dev libgoogle-glog-dev cmake make g++
+          sudo apt-get install -y software-properties-common wget cmake make g++ libeigen3-dev libceres-dev
+
+      - name: Build and install GLog from source
+        run: |
+          # Download and build GLog
+          wget https://github.com/google/glog/archive/refs/tags/v0.6.0.tar.gz
+          tar -xzf v0.6.0.tar.gz
+          cd glog-0.6.0
+          mkdir build && cd build
+          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
+          make -j$(nproc)
+          sudo make install
+          cd ../../
+          rm -rf glog-0.6.0 v0.6.0.tar.gz
 
       - name: Build project
         run: |
