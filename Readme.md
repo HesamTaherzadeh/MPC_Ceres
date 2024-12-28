@@ -65,77 +65,71 @@ The resection problem involves estimating the camera pose (position and orientat
 1. **Camera Position and Orientation:**
 
    - Position:
-     $$
-     \mathbf{X_s}(t) = X_0 + X_1 t + X_2 t^2
-     $$
+     ```
+     Xs(t) = X0 + X1 * t + X2 * t^2
+     ```
+
    - Orientation angles:
-     $$
-     \omega(t) = \omega_0 + \omega_1 t + \omega_2 t^2, \quad
-     \phi(t) = \phi_0 + \phi_1 t + \phi_2 t^2, \quad
-     \kappa(t) = \kappa_0 + \kappa_1 t + \kappa_2 t^2
-     $$
+     ```
+     ω(t) = ω0 + ω1 * t + ω2 * t^2
+     φ(t) = φ0 + φ1 * t + φ2 * t^2
+     κ(t) = κ0 + κ1 * t + κ2 * t^2
+     ```
 
 2. **Rotation Matrices:**
 
    - Rotation about the Z-axis:
-     $$
-     R_W =
-     \begin{bmatrix}
-     1 & 0 & 0 \\
-     0 & \cos \omega & -\sin \omega \\
-     0 & \sin \omega & \cos \omega
-     \end{bmatrix}
-     $$
+     ```
+     RW =
+     [ 1       0         0       ]
+     [ 0  cos(ω)   -sin(ω) ]
+     [ 0  sin(ω)    cos(ω) ]
+     ```
 
-   - Rotation about the X-axis :
-     $$
-     R_P =
-     \begin{bmatrix}
-     \cos \phi & 0 & \sin \phi \\
-     0 & 1 & 0 \\
-     -\sin \phi & 0 & \cos \phi
-     \end{bmatrix}
-     $$
+   - Rotation about the X-axis:
+     ```
+     RP =
+     [ cos(φ)    0  sin(φ) ]
+     [   0       1    0    ]
+     [ -sin(φ)   0  cos(φ) ]
+     ```
 
    - Rotation about the Y-axis:
-     $$
-     R_K =
-     \begin{bmatrix}
-     \cos \kappa & -\sin \kappa & 0 \\
-     \sin \kappa & \cos \kappa & 0 \\
-     0 & 0 & 1
-     \end{bmatrix}
-     $$
+     ```
+     RK =
+     [ cos(κ)  -sin(κ)   0 ]
+     [ sin(κ)   cos(κ)   0 ]
+     [   0        0      1 ]
+     ```
 
    - Total rotation matrix:
-     $$
-     R = R_K R_P R_W
-     $$
+     ```
+     R = RK * RP * RW
+     ```
 
 3. **Projection Equations:**
 
    - Ground point in camera coordinates:
-     $$
-     \delta X = X_g - X_s(t), \quad \delta Y = Y_g - Y_s(t), \quad \delta Z = Z_g - Z_s(t)
-     $$
+     ```
+     ΔX = Xg - Xs(t)
+     ΔY = Yg - Ys(t)
+     ΔZ = Zg - Zs(t)
+     ```
 
    - Rotated coordinates:
-     $$
-     X' = R_{11} \delta X + R_{12} \delta Y + R_{13} \delta Z
-     $$
-     $$
-     Y' = R_{21} \delta X + R_{22} \delta Y + R_{23} \delta Z
-     $$
-     $$
-     Z' = R_{31} \delta X + R_{32} \delta Y + R_{33} \delta Z
-     $$
+     ```
+     X' = R11 * ΔX + R12 * ΔY + R13 * ΔZ
+     Y' = R21 * ΔX + R22 * ΔY + R23 * ΔZ
+     Z' = R31 * ΔX + R32 * ΔY + R33 * ΔZ
+     ```
 
    - Projected image coordinates:
-     $$
-     x = -f \frac{X'}{Z'}, \quad y = -f \frac{Y'}{Z'}
-     $$
+     ```
+     x = -f * X' / Z'
+     y = -f * Y' / Z'
+     ```
 
-   Where \( f \) is the focal length.
+   Where `f` is the focal length.
 
 ### RMSE Calculation
 
@@ -146,9 +140,9 @@ RMSE = \sqrt{\frac{1}{N} \sum_{i=1}^{N} \left( (x_{obs,i} - x_{proj,i})^2 + (y_{
 $$
 
 Where:
-- \( N \) is the number of observations.
-- \( x_{obs,i}, y_{obs,i} \) are the observed image coordinates.
-- \( x_{proj,i}, y_{proj,i} \) are the projected coordinates based on the optimized parameters.
+- `N` is the number of observations.
+- `x_obs, y_obs` are the observed image coordinates.
+- `x_proj, y_proj` are the projected coordinates based on the optimized parameters.
 
 ## Troubleshooting
 
@@ -161,5 +155,3 @@ Where:
 - **Ceres Solver Documentation:** [Ceres Solver](http://ceres-solver.org/)
 - **Eigen Library:** [Eigen](https://eigen.tuxfamily.org/)
 - **GLog Library:** [GLog](https://github.com/google/glog)
-
----

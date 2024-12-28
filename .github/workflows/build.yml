@@ -13,6 +13,9 @@ jobs:
       - name: Set up build environment
         run: |
           sudo apt-get update
+          sudo apt-get install -y software-properties-common
+          sudo add-apt-repository -y universe
+          sudo apt-get update
           sudo apt-get install -y libeigen3-dev libceres-dev libgoogle-glog-dev cmake make g++
 
       - name: Build project
