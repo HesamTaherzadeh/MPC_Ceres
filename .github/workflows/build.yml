@@ -1,0 +1,23 @@
+name: CI Build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up build environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libeigen3-dev libceres-dev libgoogle-glog-dev cmake make g++
+
+      - name: Build project
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+          make
